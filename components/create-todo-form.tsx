@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 "use client";
 
 import { useRef } from "react";
@@ -11,10 +12,8 @@ export function CreateTodoForm() {
 
   return (
     <form
-      action={createTodo}
       className="mt-8 flex w-full flex-col space-y-2"
       ref={formRef}
-      // eslint-disable-next-line react/jsx-no-duplicate-props
       action={async (formData: FormData) => {
         const todoName = formData.get("todo") as string;
         if (todoName === "") {
