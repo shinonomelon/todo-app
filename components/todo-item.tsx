@@ -4,16 +4,11 @@ import { useTransition } from "react";
 
 import { checkTodo } from "@/actions/checkTodo";
 import { deleteTodo } from "@/actions/deleteTodo";
+import { Todo } from "@/types/todo";
 import { clsx } from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-type Todo = {
-  id: string;
-  text: string;
-  created_at: string;
-  updated_at: string;
-  is_done: boolean;
-};
+import { EditForm } from "./edit-form";
 
 export function TodoItem({ todo }: { todo: Todo }) {
   const [isCheckPending, startCheckTransition] = useTransition();
@@ -48,7 +43,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
         </div>
       </div>
       <div className="flex flex-col md:flex-row md:space-x-4">
-        <button className="font-semibold text-blue-600">Edit</button>
+        <EditForm todo={todo}>Edit</EditForm>
         <button
           id={todo.id}
           disabled={isDeletePending}
