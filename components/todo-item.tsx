@@ -4,19 +4,18 @@ import { useTransition } from "react";
 
 import { checkTodo } from "@/actions/checkTodo";
 import { deleteTodo } from "@/actions/deleteTodo";
+import { clsx } from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-type Props = {
-  todo: {
-    id: string;
-    text: string;
-    created_at: string;
-    updated_at: string;
-    is_done: boolean;
-  };
+type Todo = {
+  id: string;
+  text: string;
+  created_at: string;
+  updated_at: string;
+  is_done: boolean;
 };
 
-export function TodoItem({ todo }: Props) {
+export function TodoItem({ todo }: { todo: Todo }) {
   const [isCheckPending, startCheckTransition] = useTransition();
   const [isDeletePending, startDeleteTransition] = useTransition();
 
@@ -33,11 +32,14 @@ export function TodoItem({ todo }: Props) {
           }}
         />
         <div className="ml-5 flex flex-col">
-          <span className="text-xl font-bold">{todo.text}</span>
+          <span className={clsx("text-xl font-bold", todo.is_done && "text-gray-400 line-through")}>
+            {todo.text}
+          </span>
+
           <div className="text-gray-600">
-            Updated at・
+            <span className="hidden md:inline">Updated at・</span>
             <time>
-              {formatDistanceToNow(new Date(todo.updated_at), {
+              {formatDistanceToNow(new Date(todo.created_at), {
                 addSuffix: true,
                 includeSeconds: true,
               })}
@@ -45,7 +47,7 @@ export function TodoItem({ todo }: Props) {
           </div>
         </div>
       </div>
-      <div className="space-x-2">
+      <div className="flex flex-col md:flex-row md:space-x-4">
         <button className="font-semibold text-blue-600">Edit</button>
         <button
           id={todo.id}
