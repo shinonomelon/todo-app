@@ -1,8 +1,33 @@
-import { createTodo } from "./actions";
+"use client";
 
-export async function CreateTodoForm() {
+import { useRef } from "react";
+
+import { createTodo } from "@/actions/createTodo";
+import { useFormStatus } from "react-dom";
+
+export function CreateTodoForm() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const { pending } = useFormStatus();
+
   return (
-    <form className="mt-8 flex w-full flex-col space-y-2">
+    <form
+      action={createTodo}
+      className="mt-8 flex w-full flex-col space-y-2"
+      ref={formRef}
+      // eslint-disable-next-line react/jsx-no-duplicate-props
+      action={async (formData: FormData) => {
+        const todoName = formData.get("todo") as string;
+        if (todoName === "") {
+          alert("Please enter a todo name");
+          return;
+        }
+
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+        await createTodo(todoName);
+      }}
+    >
       <label>
         <input
           placeholder="type new todo"
@@ -12,12 +37,8 @@ export async function CreateTodoForm() {
           className="w-full rounded-md px-2 py-1 text-xl font-bold outline"
         />
       </label>
-      <button
-        formAction={createTodo}
-        type="submit"
-        className="rounded-md bg-blue-500 p-2 font-semibold text-white"
-      >
-        Add
+      <button type="submit" className="rounded-md bg-blue-500 p-2 font-semibold text-white">
+        {pending ? "Creating todo..." : "Create Todo"}
       </button>
     </form>
   );

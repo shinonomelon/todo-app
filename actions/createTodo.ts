@@ -5,9 +5,8 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/libs/supabase/server";
 
-export async function createTodo(formData: FormData) {
+export async function createTodo(todoName: string) {
   const supabase = createClient();
-
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -15,7 +14,7 @@ export async function createTodo(formData: FormData) {
   if (!session) redirect("/login");
 
   const todoData = {
-    text: formData.get("todo") as string,
+    text: todoName,
     user_id: session.user.id,
   };
 
