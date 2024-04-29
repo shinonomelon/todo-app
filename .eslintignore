@@ -1,4 +1,7 @@
 **/node_modules/*
 **/out/*
 **/.next/*
+
 /.eslintrc.js
+
+/types/supabase.ts
