@@ -6,7 +6,6 @@ import { checkTodo } from "@/actions/checkTodo";
 import { deleteTodo } from "@/actions/deleteTodo";
 import { Todo } from "@/types/todo";
 import { clsx } from "clsx";
-import { formatDistanceToNow } from "date-fns";
 
 import { EditForm } from "./edit-form";
 
@@ -30,16 +29,6 @@ export function TodoItem({ todo }: { todo: Todo }) {
           <span className={clsx("text-xl font-bold", todo.is_done && "text-gray-400 line-through")}>
             {todo.text}
           </span>
-
-          <div className="text-gray-600">
-            <span className="hidden md:inline">Updated at・</span>
-            <time>
-              {formatDistanceToNow(new Date(todo.created_at), {
-                addSuffix: true,
-                includeSeconds: true,
-              })}
-            </time>
-          </div>
         </div>
       </div>
       <div className="flex flex-col md:flex-row md:space-x-4">
