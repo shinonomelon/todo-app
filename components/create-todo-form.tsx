@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-duplicate-props */
 "use client";
 
 import { useRef } from "react";
@@ -6,9 +5,21 @@ import { useRef } from "react";
 import { createTodo } from "@/actions/createTodo";
 import { useFormStatus } from "react-dom";
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="rounded-md bg-blue-500 p-2 font-semibold text-white aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+    >
+      {pending ? "Creating todo..." : "Create Todo"}
+    </button>
+  );
+}
 export function CreateTodoForm() {
   const formRef = useRef<HTMLFormElement>(null);
-  const { pending } = useFormStatus();
 
   return (
     <form
@@ -36,9 +47,8 @@ export function CreateTodoForm() {
           className="w-full rounded-md px-2 py-1 text-xl font-bold outline"
         />
       </label>
-      <button type="submit" className="rounded-md bg-blue-500 p-2 font-semibold text-white">
-        {pending ? "Creating todo..." : "Create Todo"}
-      </button>
+
+      <SubmitButton />
     </form>
   );
 }
