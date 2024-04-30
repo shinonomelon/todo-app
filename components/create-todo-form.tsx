@@ -26,16 +26,8 @@ export function CreateTodoForm() {
       className="mt-8 flex w-full flex-col space-y-2"
       ref={formRef}
       action={async (formData: FormData) => {
-        const todoName = formData.get("todo") as string;
-        if (todoName === "") {
-          alert("Please enter a todo name");
-          return;
-        }
-
-        if (formRef.current) {
-          formRef.current.reset();
-        }
-        await createTodo(todoName);
+        await createTodo(formData);
+        formRef.current?.reset();
       }}
     >
       <label>
