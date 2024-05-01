@@ -65,6 +65,9 @@ export async function middleware(request: NextRequest) {
   if (!user && !signInPath) {
     const baseUrl = request.nextUrl.origin;
     return NextResponse.redirect(`${baseUrl}/login`);
+  } else if (user && signInPath) {
+    const baseUrl = request.nextUrl.origin;
+    return NextResponse.redirect(`${baseUrl}/`);
   }
 
   return response;
